@@ -43,41 +43,33 @@ matchGloves(gloves3)
 type Glove = { hand: 'L' | 'R'; color: string }
 
 function matchGloves(gloves: Glove[]): string[] {
-    const countsByColor = gloves.reduce((map, glove) => {
-        if (!map.has(glove.color)) {
-            map.set(glove.color, { L: 0, R: 0 });
-        }
-
-        // Incrementa la mano específica
-        map.get(glove.color)![glove.hand]++;
-
-        return map;
-    }, new Map<string, { L: number, R: number }>());
-
-
-    // 3 & 4. Determinar los Pares y construir la lista de colores
-    const matchedColors: string[] = [];
-
-    for (const [color, counts] of countsByColor.entries()) {
-
-        // Número de pares es el mínimo entre L y R
-        const pairsToMake = Math.min(counts.L, counts.R);
-
-        // Rellenar el arreglo de resultados con el color la cantidad de veces necesaria
-        for (let i = 0; i < pairsToMake; i++) {
-            matchedColors.push(color);
-        }
+  const countsByColor = gloves.reduce((map, glove) => {
+    if (!map.has(glove.color)) {
+      map.set(glove.color, { L: 0, R: 0 });
     }
+    map.get(glove.color)![glove.hand]++;
 
-    return matchedColors;
+    return map;
+  }, new Map<string, { L: number, R: number }>());
+
+  const matchedColors: string[] = [];
+
+  for (const [color, counts] of countsByColor.entries()) {
+    const pairsToMake = Math.min(counts.L, counts.R);
+    for (let i = 0; i < pairsToMake; i++) {
+      matchedColors.push(color);
+    }
+  }
+
+  return matchedColors;
 }
 
 const gloves: Glove[] = [
-    { hand: 'L', color: 'red' },
-    { hand: 'R', color: 'red' },
-    { hand: 'R', color: 'green' },
-    { hand: 'L', color: 'blue' },
-    { hand: 'L', color: 'green' }
+  { hand: 'L', color: 'red' },
+  { hand: 'R', color: 'red' },
+  { hand: 'R', color: 'green' },
+  { hand: 'L', color: 'blue' },
+  { hand: 'L', color: 'green' }
 ]
 
 matchGloves(gloves)
